@@ -168,24 +168,47 @@ def agregar_libro(self, codigo, titulo, autor, anio):
         else:
             print("\nNo se encontró ningún libro con ese código.")
 
-    def buscar_libro(self, codigo):
-        libro = self.libros.buscar(codigo)
-        if libro:
-            estado = "Disponible" if libro["disponible"] else "Prestado"
-            print(f"\nLibro encontrado:\nTítulo: {libro['titulo']}\nAutor: {libro['autor']}\nAño: {libro['anio']}\nEstado: {estado}")
-        else:
-            print("\nNo se encontró ningún libro con ese código.")
-        return libro
+def buscar_libro(self, codigo):
+    libro = self.libros.buscar(codigo)
 
-    def mostrar_libros(self):
-        lista = self.libros.recorrer_inorden()
-        if not lista:
-            print("\nNo hay libros registrados.")
-            return
-        print("\nCatálogo de libros:")
-        for libro in lista:
-            estado = "Disponible" if libro["disponible"] else "Prestado"
-            print(f"• {libro['codigo']} | {libro['titulo']} | {libro['autor']} | {libro['anio']} | {estado}")
+    if libro:
+        estado = "Disponible" if libro["disponible"] else "Prestado"
+        print("\n=========== LIBRO ENCONTRADO ===========")
+        print(f"Código : {libro['codigo']}")
+        print(f"Título : {libro['titulo']}")
+        print(f"Autor  : {libro['autor']}")
+        print(f"Año    : {libro['anio']}")
+        print(f"Estado : {estado}")
+        print("========================================")
+    else:
+        print("\nNo se encontró ningún libro con ese código.")
+
+    return libro
+
+
+def mostrar_libros(self):
+    lista = self.libros.recorrer_inorden()
+
+    if not lista:
+        print("\nNo hay libros registrados.")
+        return
+
+    total_libros = len(lista)
+    disponibles = sum(1 for libro in lista if libro["disponible"])
+    prestados = total_libros - disponibles
+
+    print("\n==================== CATÁLOGO DE LIBROS ====================")
+    print(f"Total: {total_libros} | Disponibles: {disponibles} | Prestados: {prestados}")
+    print("-------------------------------------------------------------")
+    print(f"{'Código':<10} {'Título':<25} {'Autor':<20} {'Año':<5} {'Estado'}")
+    print("-------------------------------------------------------------")
+
+    for libro in lista:
+        estado = "Disponible" if libro["disponible"] else "Prestado"
+        print(f"{libro['codigo']:<10} {libro['titulo']:<25} {libro['autor']:<20} {libro['anio']:<5} {estado}")
+
+    print("-------------------------------------------------------------")
+
 
     # ------------------- USUARIOS -------------------
 
