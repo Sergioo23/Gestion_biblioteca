@@ -212,24 +212,45 @@ def mostrar_libros(self):
 
     # ------------------- USUARIOS -------------------
 
-    def agregar_usuario(self, cedula, nombre):
-        if self.usuarios.buscar(cedula):
-            print("\nYa existe un usuario con esa cédula.")
-            return
-        usuario = {"cedula": cedula, "nombre": nombre}
-        self.usuarios.insertar(cedula, usuario)
-        print("\nUsuario registrado correctamente.")
+def agregar_usuario(self, cedula, nombre):
+    # Validar campos obligatorios
+    if not cedula.strip() or not nombre.strip():
+        print("\nError: la cédula y el nombre son obligatorios.")
+        return
 
-    def editar_usuario(self, cedula):
-        usuario = self.usuarios.buscar(cedula)
-        if not usuario:
-            print("\nNo se encontró un usuario con esa cédula.")
-            return
+    # Validar que la cédula sea numérica
+    if not cedula.isdigit():
+        print("\nError: la cédula debe contener solo números.")
+        return
 
-        print(f"\nEditando usuario '{usuario['nombre']}' (deje vacío para no modificar):")
-        nuevo_nombre = input(f"Nuevo nombre [{usuario['nombre']}]: ") or usuario['nombre']
-        usuario['nombre'] = nuevo_nombre
-        print("\nUsuario actualizado correctamente.")
+    # Validar cédula duplicada
+    if self.usuarios.buscar(cedula):
+        print("\nYa existe un usuario con esa cédula.")
+        return
+
+    usuario = {"cedula": cedula, "nombre": nombre}
+    self.usuarios.insertar(cedula, usuario)
+    print("\nUsuario registrado correctamente.")
+
+
+def editar_usuario(self, cedula):
+    usuario = self.usuarios.buscar(cedula)
+
+    if not usuario:
+        print("\nNo se encontró un usuario con esa cédula.")
+        return
+
+    print("\n=========== EDICIÓN DE USUARIO ===========")
+    print(f"Cédula actual : {usuario['cedula']}")
+    print(f"Nombre actual : {usuario['nombre']}")
+    print("Deje el campo vacío si no desea modificarlo.")
+    print("==========================================")
+
+    nuevo_nombre = input(f"Nuevo nombre [{usuario['nombre']}]: ").strip() or usuario['nombre']
+    usuario['nombre'] = nuevo_nombre
+
+    print("\nUsuario actualizado correctamente.")
+
 
     def eliminar_usuario(self, cedula):
         eliminado = self.usuarios.eliminar(cedula)
@@ -238,14 +259,26 @@ def mostrar_libros(self):
         else:
             print("\nNo se encontró ningún usuario con esa cédula.")
 
-    def mostrar_usuarios(self):
-        lista = self.usuarios.recorrer_inorden()
-        if not lista:
-            print("\nNo hay usuarios registrados.")
-            return
-        print("\nUsuarios registrados:")
-        for usuario in lista:
-            print(f"• {usuario['cedula']} - {usuario['nombre']}")
+def mostrar_usuarios(self):
+    lista = self.usuarios.recorrer_inorden()
+
+    if not lista:
+        print("\nNo hay usuarios registrados.")
+        return
+
+    total_usuarios = len(lista)
+
+    print("\n================= USUARIOS REGISTRADOS =================")
+    print(f"Total de usuarios: {total_usuarios}")
+    print("--------------------------------------------------------")
+    print(f"{'Cédula':<15} {'Nombre':<30}")
+    print("--------------------------------------------------------")
+
+    for usuario in lista:
+        print(f"{usuario['cedula']:<15} {usuario['nombre']:<30}")
+
+    print("--------------------------------------------------------")
+
 
     # ------------------- PRÉSTAMOS -------------------
 
