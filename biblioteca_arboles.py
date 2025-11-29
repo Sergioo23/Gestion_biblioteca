@@ -118,19 +118,32 @@ class SistemaBiblioteca:
 
     # ------------------- LIBROS -------------------
 
-    def agregar_libro(self, codigo, titulo, autor, anio):
-        if self.libros.buscar(codigo):
-            print("\nYa existe un libro con ese código.")
-            return
-        libro = {
-            "codigo": codigo,
-            "titulo": titulo,
-            "autor": autor,
-            "anio": anio,
-            "disponible": True
-        }
-        self.libros.insertar(codigo, libro)
-        print("\nLibro agregado correctamente.")
+def agregar_libro(self, codigo, titulo, autor, anio):
+    # Validar campos obligatorios
+    if not codigo.strip() or not titulo.strip() or not autor.strip() or not anio.strip():
+        print("\nError: todos los campos del libro son obligatorios.")
+        return
+
+    # Validar que el año sea numérico
+    if not anio.isdigit():
+        print("\nError: el año de publicación debe ser un número.")
+        return
+
+    # Validar código duplicado
+    if self.libros.buscar(codigo):
+        print("\nYa existe un libro con ese código.")
+        return
+
+    libro = {
+        "codigo": codigo,
+        "titulo": titulo,
+        "autor": autor,
+        "anio": anio,
+        "disponible": True
+    }
+    self.libros.insertar(codigo, libro)
+    print("\nLibro agregado correctamente.")
+
 
     def editar_libro(self, codigo):
         libro = self.libros.buscar(codigo)
