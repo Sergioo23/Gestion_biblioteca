@@ -318,15 +318,28 @@ def mostrar_usuarios(self):
 
         usuario, libro = self.prestamos.popleft()
         libro["disponible"] = True
-        print(f"\nLibro devuelto: '{libro['titulo']}' por {usuario['nombre']}.")
+
+        print("\n=========== DEVOLUCIÓN REGISTRADA ===========")
+        print(f"Usuario : {usuario['nombre']}")
+        print(f"Libro   : {libro['titulo']}")
+        print("Estado  : Disponible")
+        print("============================================")
+
 
     def mostrar_prestamos(self):
         if not self.prestamos:
             print("\nNo hay préstamos activos.")
             return
-        print("\nPréstamos activos:")
+
+        print("\n================ PRÉSTAMOS ACTIVOS ================")
+        print(f"{'Usuario':<25} {'Libro':<30} {'Autor'}")
+        print("--------------------------------------------------")
+
         for usuario, libro in self.prestamos:
-            print(f"• {usuario['nombre']} → {libro['titulo']} ({libro['autor']})")
+            print(f"{usuario['nombre']:<25} {libro['titulo']:<30} {libro['autor']}")
+
+        print("--------------------------------------------------")
+
 
 
 # =======================================================
