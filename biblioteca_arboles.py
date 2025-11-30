@@ -283,20 +283,33 @@ def mostrar_usuarios(self):
     # ------------------- PRÉSTAMOS -------------------
 
     def solicitar_prestamo(self, cedula, codigo_libro):
+        if not cedula.strip() or not codigo_libro.strip():
+            print("\nError: la cédula y el código del libro son obligatorios.")
+            return
+
         usuario = self.usuarios.buscar(cedula)
         libro = self.libros.buscar(codigo_libro)
 
-        if not usuario or not libro:
-            print("\nError: usuario o libro no encontrado.")
+        if not usuario:
+            print("\nError: el usuario no se encuentra registrado.")
+            return
+
+        if not libro:
+            print("\nError: el libro no existe en el catálogo.")
             return
 
         if not libro["disponible"]:
-            print("\nEl libro ya está prestado.")
+            print("\nEl libro ya se encuentra prestado actualmente.")
             return
 
         libro["disponible"] = False
         self.prestamos.append((usuario, libro))
-        print(f"\nPréstamo registrado: '{libro['titulo']}' para {usuario['nombre']}.")
+
+        print("\n========= PRÉSTAMO REGISTRADO =========")
+        print(f"Usuario : {usuario['nombre']}")
+        print(f"Libro   : {libro['titulo']}")
+        print("Estado  : Prestado")
+        print("======================================")
 
     def devolver_libro(self):
         if not self.prestamos:
